@@ -9,6 +9,8 @@ Add the below code to your Rakefile. Make sure to  require `sinatra-rake-routes/
 # Rakefile
 task :configure_routes do
   require "sinatra-rake-routes"
+  
+  # Tell SinatraRakeRoutes what your Sinatra::Base application class is called:
   require './my_app'
   SinatraRakeRoutes.set_app_class(MyApp)
 end
