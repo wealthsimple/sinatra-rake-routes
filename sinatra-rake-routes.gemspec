@@ -9,13 +9,13 @@ Gem::Specification.new do |gem|
   gem.author = "Peter Graham"
   gem.summary = %q{`rake routes` command for Sinatra applications}
   gem.email = %q{peter@wealthsimple.com}
-  gem.description   = %q{}
-  gem.summary       = %q{}
-  gem.homepage      = %q{}
+  gem.description   = %q{Rails' `rake routes` command for Sinatra applications}
+  gem.homepage      = %q{https://github.com/wealthsimple}
   gem.files         = `git ls-files`.split("\n")
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+  gem.licenses      = ["MIT"]
 
   gem.add_dependency "rake"
 
