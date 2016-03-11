@@ -1,14 +1,17 @@
 POST
 A/test-hyphenated/:test_id/something\
+A/users/*/splat/*\
 A/users/:user_id/messages\
 A/users\
 
 GET
+A/users.tar.gz\
 A/users/:user_id/messages/:message_id\
 A/users/:user_id/messages\
 A/users/:user_id\
 
 HEAD
+A/users.tar.gz\
 A/users/:user_id/messages/:message_id\
 A/users/:user_id/messages\
 A/users/:user_id\

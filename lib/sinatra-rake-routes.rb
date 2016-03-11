@@ -4,10 +4,13 @@ require 'sinatra-rake-routes/version'
 class SinatraRakeRoutes
   @@app_class = nil
 
-  # Sinatra replaces hyphens with the following regex:
+  # Sinatra compiles routes into regexes. See below link for how this works:
+  # https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/lib/sinatra/base.rb#L1618
+  # The below regexes cover some of the common cases.
   HYPHEN_REGEX = /(?:\-|%2[Dd])/
-  # Sinatra replaces named params with the following regex:
   NAMED_PARAM_REGEX = /([^\/?#]+)/
+  PERIOD_REGEX = /(?:\.|%2[Ee])/
+  SPLAT_REGEX = /(.*?)/
 
   def self.set_app_class(klass)
     if klass.respond_to?(:routes) && klass.routes.is_a?(Hash)
@@ -30,6 +33,8 @@ class SinatraRakeRoutes
       routes_list.each do |item|
         source = item[0].source
         source.gsub!(HYPHEN_REGEX.source, "-")
+        source.gsub!(PERIOD_REGEX.source, ".")
+        source.gsub!(SPLAT_REGEX.source, "*")
         item[1].each do |s|
           source.sub!(NAMED_PARAM_REGEX.source, ":#{s}")
         end
