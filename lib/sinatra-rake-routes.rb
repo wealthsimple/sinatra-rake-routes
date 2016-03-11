@@ -9,6 +9,7 @@ class SinatraRakeRoutes
   # The below regexes cover some of the common cases.
   HYPHEN_REGEX = /(?:\-|%2[Dd])/
   NAMED_PARAM_REGEX_SOURCE = "([^\/?#]+)"
+  NAMED_PARAM_PRIOR_TO_PERIOD_SOURCE = "((?:[^/?#%]|(?:%[^2].|%[2][^Ee]))+)"
   PERIOD_REGEX = /(?:\.|%2[Ee])/
   SPLAT_REGEX = /(.*?)/
 
@@ -43,7 +44,11 @@ class SinatraRakeRoutes
     source.gsub!(PERIOD_REGEX.source, ".")
     source.gsub!(SPLAT_REGEX.source, "*")
     params.each do |param|
-      source.sub!(NAMED_PARAM_REGEX_SOURCE, ":#{param}")
+      if source.include?(NAMED_PARAM_PRIOR_TO_PERIOD_SOURCE)
+        source.sub!(NAMED_PARAM_PRIOR_TO_PERIOD_SOURCE, ":#{param}")
+      else
+        source.sub!(NAMED_PARAM_REGEX_SOURCE, ":#{param}")
+      end
     end
     # Remove leading "\A" and trailing "\z"
     source[2...-2]
