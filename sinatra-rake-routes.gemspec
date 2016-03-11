@@ -23,4 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rspec-collection_matchers"
   gem.add_development_dependency "rspec-its"
   gem.add_development_dependency "sinatra"
+  gem.add_development_dependency "rspec_junit_formatter"
 end
