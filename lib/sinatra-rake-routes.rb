@@ -27,7 +27,7 @@ class SinatraRakeRoutes
   def self.output
     str = []
     app_routes = app_class.routes
-    app_routes.each_with_index do |(http_method, routes_list), i|
+    app_routes.each do |http_method, routes_list|
       str << http_method
       routes = []
       routes_list.each do |item|
