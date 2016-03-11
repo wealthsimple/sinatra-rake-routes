@@ -71,17 +71,12 @@ class SinatraRakeRoutes
   end
 
   def encoded(char)
-    enc = uri_parser.escape(char)
-    enc = "(?:#{escaped(char, enc).join('|')})" if enc == char
+    @uri_parser ||= URI::Parser.new
+    enc = @uri_parser.escape(char)
+    escaped = [Regexp.escape(enc), @uri_parser.escape(char, /./)]
+    enc = "(?:#{escaped.join('|')})" if enc == char
     enc = "(?:#{enc}|#{encoded('+')})" if char == " "
     enc
   end
 
-  def uri_parser
-    @_uri_parser ||= URI::Parser.new
-  end
-
-  def escaped(char, enc = uri_parser.escape(char))
-    [Regexp.escape(enc), uri_parser.escape(char, /./)]
-  end
 end
