@@ -1,4 +1,4 @@
-# sinatra-rake-routes [![Circle CI](https://circleci.com/gh/wealthsimple/sinatra-rake-routes.svg?style=svg)](https://circleci.com/gh/wealthsimple/sinatra-rake-routes) ![](https://img.shields.io/gem/v/sinatra-rake-routes.svg)
+# sinatra-rake-routes [![Circle CI](https://circleci.com/gh/wealthsimple/sinatra-rake-routes.svg?style=svg)](https://circleci.com/gh/wealthsimple/sinatra-rake-routes) [![](https://img.shields.io/gem/v/sinatra-rake-routes.svg)](https://rubygems.org/gems/sinatra-rake-routes)
 
 `rake routes` command for Sinatra applications for printing out all defined routes.
 
