@@ -34,7 +34,7 @@ class SinatraRakeRoutes
     str.join("\n")
   end
 
-private
+  private
 
   def decompile_route(route)
     source = route[0].source
