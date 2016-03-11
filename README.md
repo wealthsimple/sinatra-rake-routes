@@ -31,23 +31,23 @@ require "sinatra-rake-routes/tasks"
 bundle exec rake routes
 
 POST
-A/users/:user_id/messages\
-A/users\
+/users
+/users/:user_id/messages
 
 GET
-A/users/:user_id/messages/:message_id\
-A/users/:user_id/messages\
-A/users/:user_id\
+/users/:user_id
+/users/:user_id/messages
+/users/:user_id/messages/:message_id
 
 HEAD
-A/users/:user_id/messages/:message_id\
-A/users/:user_id/messages\
-A/users/:user_id\
+/users/:user_id
+/users/:user_id/messages
+/users/:user_id/messages/:message_id
 
 PUT
-A/users/:user_id/messages/:message_id\
-A/users/:user_id\
+/users/:user_id
+/users/:user_id/messages/:message_id
 
 DELETE
-A/users/:user_id\
+/users/:user_id
 ```

@@ -1,20 +1,24 @@
 POST
-A/users/:user_id/messages\
-A/users\
+/test-hyphenated/:test_id/something
+/users
+/users/*/splat/*
+/users/:user_id/messages
 
 GET
-A/users/:user_id/messages/:message_id\
-A/users/:user_id/messages\
-A/users/:user_id\
+/users.tar.gz
+/users/:user_id
+/users/:user_id/messages
+/users/:user_id/messages/:message_id
 
 HEAD
-A/users/:user_id/messages/:message_id\
-A/users/:user_id/messages\
-A/users/:user_id\
+/users.tar.gz
+/users/:user_id
+/users/:user_id/messages
+/users/:user_id/messages/:message_id
 
 PUT
-A/users/:user_id/messages/:message_id\
-A/users/:user_id\
+/users/:user_id
+/users/:user_id/messages/:message_id
 
 DELETE
-A/users/:user_id\
+/users/:user_id
