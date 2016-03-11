@@ -1,6 +1,6 @@
 # sinatra-rake-routes [![Circle CI](https://circleci.com/gh/wealthsimple/sinatra-rake-routes.svg?style=svg)](https://circleci.com/gh/wealthsimple/sinatra-rake-routes)
 
-`rake routes` command for Sinatra applications
+`rake routes` command for Sinatra applications for printing out all defined routes.
 
 ## Usage
 
