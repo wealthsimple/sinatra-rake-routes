@@ -4,14 +4,6 @@ require 'sinatra-rake-routes/version'
 class SinatraRakeRoutes
   @@app_class = nil
 
-  # Sinatra compiles routes into regexes. See below link for how this works:
-  # https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/lib/sinatra/base.rb#L1618
-  # The below regexes cover some of the common cases.
-  HYPHEN_REGEX = /(?:\-|%2[Dd])/
-  NAMED_PARAM_REGEX_SOURCE = "([^\/?#]+)"
-  PERIOD_REGEX = /(?:\.|%2[Ee])/
-  SPLAT_REGEX = /(.*?)/
-
   def self.set_app_class(klass)
     if klass.respond_to?(:routes) && klass.routes.is_a?(Hash)
       @@app_class = klass
@@ -28,7 +20,7 @@ class SinatraRakeRoutes
     str = []
     self.class.app_class.routes.each do |http_method, routes|
       str << http_method
-      routes = routes.map { |route| decompile_route(route) }
+      routes = routes.map { |route| decompile(*route) }
       str << routes.sort.join("\n") + "\n"
     end
     str.join("\n")
@@ -36,16 +28,55 @@ class SinatraRakeRoutes
 
   private
 
-  def decompile_route(route)
-    source = route[0].source
-    params = route[1]
-    source.gsub!(HYPHEN_REGEX.source, "-")
-    source.gsub!(PERIOD_REGEX.source, ".")
-    source.gsub!(SPLAT_REGEX.source, "*")
-    params.each do |param|
-      source.sub!(NAMED_PARAM_REGEX_SOURCE, ":#{param}")
+  # Below method taken from Sinatra::Contrib
+  # https://github.com/sinatra/sinatra-contrib/blob/66892d3789ba23f157b17d67570479e97d7eaa95/lib/sinatra/decompile.rb#L70
+  def decompile(pattern, keys = nil, *)
+    # Everything in here is basically just the reverse of
+    # Sinatra::Base#compile
+    #
+    # Sinatra 2.0 will come with a mechanism for this, making this obsolete.
+    pattern, keys = pattern if pattern.respond_to? :to_ary
+    str     = pattern.inspect
+    return pattern unless str.start_with? '/' and str.end_with? '/'
+    str.gsub! /(?:\\-|%2[Dd])/, "-"
+    str.gsub! /^\/(\^|\\A)?|(\$|\\z)?\/$/, ''
+    str.gsub! encoded(' '), ' '
+    return pattern if str =~ /^[\.\+]/
+    str.gsub! '((?:[^\.\/?#%]|(?:%[^2].|%[2][^Ee]))+)', '([^\/?#]+)'
+    str.gsub! '((?:[^\/?#%]|(?:%[^2].|%[2][^Ee]))+)', '([^\/?#]+)'
+    str.gsub! /\([^\(\)]*\)|\([^\(\)]*\([^\(\)]*\)[^\(\)]*\)/ do |part|
+      case part
+      when '(.*?)'
+        return pattern if keys.shift != 'splat'
+        '*'
+      when /^\(\?\:(\\*.)\|%[\w\[\]]+\)$/
+        $1
+      when /^\(\?\:(%\d+)\|([^\)]+|\([^\)]+\))\)$/
+        URI.unescape($1)
+      when '([^\/?#]+)'
+        return pattern if keys.empty?
+        ":" << keys.shift
+      when /^\(\?\:\\?(.)\|/
+        char = $1
+        return pattern unless encoded(char) == part
+        Regexp.escape(char)
+      else
+        return pattern
+      end
     end
-    # Remove leading "\A" and trailing "\z"
-    source[2...-2]
+    str.gsub /(.)([\.\+\(\)\/])/ do
+      return pattern if $1 != "\\"
+      $2
+    end
   end
+
+  def encoded(char)
+    @uri_parser ||= URI::Parser.new
+    enc = @uri_parser.escape(char)
+    escaped = [Regexp.escape(enc), @uri_parser.escape(char, /./)]
+    enc = "(?:#{escaped.join('|')})" if enc == char
+    enc = "(?:#{enc}|#{encoded('+')})" if char == " "
+    enc
+  end
+
 end
