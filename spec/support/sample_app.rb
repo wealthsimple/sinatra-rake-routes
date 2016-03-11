@@ -3,6 +3,8 @@ require 'sinatra'
 class SampleApp < Sinatra::Base
   post '/users' do
   end
+  post '/test-hyphenated/:test_id/something' do
+  end
   post '/users/:user_id/messages' do
   end
   get '/users/:user_id' do

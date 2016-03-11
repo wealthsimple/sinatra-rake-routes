@@ -1,4 +1,5 @@
 POST
+A/test-hyphenated/:test_id/something\
 A/users/:user_id/messages\
 A/users\
 
