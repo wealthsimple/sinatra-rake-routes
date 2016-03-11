@@ -38,7 +38,7 @@ class SinatraRakeRoutes
         item[1].each do |s|
           source.sub!(NAMED_PARAM_REGEX.source, ":#{s}")
         end
-        routes << source[1...-1]
+        routes << source[2...-2]
       end
       str << routes.sort.join("\n") + "\n"
     end
