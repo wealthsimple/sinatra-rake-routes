@@ -8,7 +8,7 @@ class SinatraRakeRoutes
   # https://github.com/sinatra/sinatra/blob/4c7d38eb1b2cc02ce51029f28e0c3c34ca12ccfd/lib/sinatra/base.rb#L1618
   # The below regexes cover some of the common cases.
   HYPHEN_REGEX = /(?:\-|%2[Dd])/
-  NAMED_PARAM_REGEX = /([^\/?#]+)/
+  NAMED_PARAM_REGEX_SOURCE = "([^\/?#]+)"
   PERIOD_REGEX = /(?:\.|%2[Ee])/
   SPLAT_REGEX = /(.*?)/
 
@@ -36,7 +36,7 @@ class SinatraRakeRoutes
         source.gsub!(PERIOD_REGEX.source, ".")
         source.gsub!(SPLAT_REGEX.source, "*")
         item[1].each do |s|
-          source.sub!(NAMED_PARAM_REGEX.source, ":#{s}")
+          source.sub!(NAMED_PARAM_REGEX_SOURCE, ":#{s}")
         end
         routes << source[2...-2]
       end
