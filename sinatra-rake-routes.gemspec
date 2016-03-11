@@ -9,19 +9,18 @@ Gem::Specification.new do |gem|
   gem.author = "Peter Graham"
   gem.summary = %q{`rake routes` command for Sinatra applications}
   gem.email = %q{peter@wealthsimple.com}
-  gem.description   = %q{Rails' `rake routes` command for Sinatra applications}
-  gem.homepage      = %q{https://github.com/wealthsimple}
+  gem.description   = %q{Rake command for printing out all defined routes in Sinatra applications}
+  gem.homepage      = %q{https://github.com/wealthsimple/sinatra-rake-routes}
   gem.files         = `git ls-files`.split("\n")
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
   gem.licenses      = ["MIT"]
 
-  gem.add_dependency "rake"
+  gem.required_ruby_version = ">= 1.9.3"
+  gem.add_dependency "rake", ">= 0"
 
-  gem.add_development_dependency "rspec"
-  gem.add_development_dependency "rspec-collection_matchers"
-  gem.add_development_dependency "rspec-its"
-  gem.add_development_dependency "sinatra"
-  gem.add_development_dependency "rspec_junit_formatter"
+  gem.add_development_dependency "rspec", "~> 3.4"
+  gem.add_development_dependency "sinatra", "~> 1.4"
+  gem.add_development_dependency "rspec_junit_formatter", "~> 0.2"
 end

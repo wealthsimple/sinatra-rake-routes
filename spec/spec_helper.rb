@@ -1,6 +1,4 @@
 require 'rspec'
-require 'rspec/collection_matchers'
-require 'rspec/its'
 
 Dir["./spec/support/**/*.rb"].each { |f| require f }
 
