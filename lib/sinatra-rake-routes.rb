@@ -4,12 +4,6 @@ require 'sinatra-rake-routes/version'
 class SinatraRakeRoutes
   @@app_class = nil
 
-  HYPHEN_REGEX = /(?:\-|%2[Dd])/
-  NAMED_PARAM_REGEX_SOURCE = "([^\/?#]+)"
-  NAMED_PARAM_PRIOR_TO_PERIOD_SOURCE = "((?:[^/?#%]|(?:%[^2].|%[2][^Ee]))+)"
-  PERIOD_REGEX = /(?:\.|%2[Ee])/
-  SPLAT_REGEX = /(.*?)/
-
   def self.set_app_class(klass)
     if klass.respond_to?(:routes) && klass.routes.is_a?(Hash)
       @@app_class = klass
@@ -42,8 +36,9 @@ class SinatraRakeRoutes
     #
     # Sinatra 2.0 will come with a mechanism for this, making this obsolete.
     pattern, keys = pattern if pattern.respond_to? :to_ary
-    keys, str     = keys.send(:dup), pattern.inspect
+    str     = pattern.inspect
     return pattern unless str.start_with? '/' and str.end_with? '/'
+    str.gsub! /(?:\\-|%2[Dd])/, "-"
     str.gsub! /^\/(\^|\\A)?|(\$|\\z)?\/$/, ''
     str.gsub! encoded(' '), ' '
     return pattern if str =~ /^[\.\+]/
