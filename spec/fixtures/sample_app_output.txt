@@ -7,12 +7,14 @@ POST
 GET
 /users.tar.gz
 /users/:user_id
+/users/:user_id.json
 /users/:user_id/messages
 /users/:user_id/messages/:message_id
 
 HEAD
 /users.tar.gz
 /users/:user_id
+/users/:user_id.json
 /users/:user_id/messages
 /users/:user_id/messages/:message_id
 

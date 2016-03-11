@@ -11,6 +11,8 @@ class SampleApp < Sinatra::Base
   end
   get '/users.tar.gz' do
   end
+  get '/users/:user_id.json' do
+  end
   get '/users/:user_id' do
   end
   get '/users/:user_id/messages' do
