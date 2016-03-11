@@ -24,24 +24,28 @@ class SinatraRakeRoutes
     @@app_class
   end
 
-  def self.output
+  def to_s
     str = []
-    app_routes = app_class.routes
-    app_routes.each do |http_method, routes_list|
+    self.class.app_class.routes.each do |http_method, routes|
       str << http_method
-      routes = []
-      routes_list.each do |item|
-        source = item[0].source
-        source.gsub!(HYPHEN_REGEX.source, "-")
-        source.gsub!(PERIOD_REGEX.source, ".")
-        source.gsub!(SPLAT_REGEX.source, "*")
-        item[1].each do |s|
-          source.sub!(NAMED_PARAM_REGEX_SOURCE, ":#{s}")
-        end
-        routes << source[2...-2]
-      end
+      routes = routes.map { |route| decompile_route(route) }
       str << routes.sort.join("\n") + "\n"
     end
     str.join("\n")
+  end
+
+private
+
+  def decompile_route(route)
+    source = route[0].source
+    params = route[1]
+    source.gsub!(HYPHEN_REGEX.source, "-")
+    source.gsub!(PERIOD_REGEX.source, ".")
+    source.gsub!(SPLAT_REGEX.source, "*")
+    params.each do |param|
+      source.sub!(NAMED_PARAM_REGEX_SOURCE, ":#{param}")
+    end
+    # Remove leading "\A" and trailing "\z"
+    source[2...-2]
   end
 end

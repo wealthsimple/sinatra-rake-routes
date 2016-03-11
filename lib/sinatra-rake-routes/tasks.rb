@@ -1,6 +1,6 @@
 desc "Print out all defined routes"
 task :routes do
-  puts SinatraRakeRoutes.output
+  puts SinatraRakeRoutes.new.to_s
 end
 
 if Rake::Task.task_defined?("configure_routes")

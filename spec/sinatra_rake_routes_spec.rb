@@ -17,10 +17,10 @@ describe SinatraRakeRoutes do
     end
   end
 
-  describe ".output" do
+  describe "#to_s" do
     it "outputs routes" do
       described_class.set_app_class(SampleApp)
-      expect(described_class.output).to eq(File.read('./spec/fixtures/sample_app_output.txt'))
+      expect(described_class.new.to_s).to eq(File.read('./spec/fixtures/sample_app_output.txt'))
     end
   end
 end
