@@ -23,4 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rspec", "~> 3.4"
   gem.add_development_dependency "sinatra", "~> 1.4"
   gem.add_development_dependency "rspec_junit_formatter", "~> 0.2"
+  gem.add_development_dependency "bundler-audit"
 end
