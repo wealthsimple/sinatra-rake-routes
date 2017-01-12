@@ -2,6 +2,8 @@ dependencies:
   override:
     - 'rvm-exec 1.9.3-p551 bundle install'
     - 'rvm-exec 2.3.0 bundle install'
+  post:
+    - 'bundle exec bundle-audit update && bundle exec bundle-audit check'
 
 test:
   override:
