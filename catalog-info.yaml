@@ -1,0 +1,11 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sinatra-rake-routes
+  description: `rake routes` command for Sinatra applications
+  tags:
+    - ruby
+spec:
+  type: website
+  lifecycle: production
